@@ -21,6 +21,7 @@ public class NPCMovement : MonoBehaviour
     void Update()
     {
         // Move toward target position
+        //GridLayout.
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
 
         // When reached, step to next tile

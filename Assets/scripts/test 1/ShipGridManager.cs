@@ -11,7 +11,7 @@ public class ShipGridManager : MonoBehaviour
         Instance = this;
     }
 
-    // Converts grid/world tile to world position (here we just return the same since we use world coordinates)
+    // Converts grid/world tile to world position 
     public Vector3 GridToWorld(Vector2Int gridPos)
     {
         return new Vector3(gridPos.x, gridPos.y, 0);

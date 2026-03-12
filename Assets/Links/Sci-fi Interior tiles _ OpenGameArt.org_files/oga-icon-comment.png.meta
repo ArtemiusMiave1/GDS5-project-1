@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      oga-icon-comment_0: -1349071489670086345
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

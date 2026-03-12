@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      sara-logo_0: 5283347455105476012
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

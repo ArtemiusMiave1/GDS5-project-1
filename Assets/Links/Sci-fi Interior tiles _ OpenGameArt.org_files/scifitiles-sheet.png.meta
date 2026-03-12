@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      scifitiles-sheet_0: -7176883898404082396
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
