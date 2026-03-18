@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    public Vector2Int gridPosition;
     public bool isOpen = true;
     public Collider2D doorCollider;
 

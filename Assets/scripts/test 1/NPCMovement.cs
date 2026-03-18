@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NPCMovement : MonoBehaviour
 {
@@ -34,17 +34,34 @@ public class NPCMovement : MonoBehaviour
     void StepTowardsDestination()
     {
         if (currentTile == destinationTile)
-            return; // Already at destination
+            return;
 
         Vector2Int direction = destinationTile - currentTile;
 
-        // Move 1 room at a time (2 units per step)
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
             direction = new Vector2Int(direction.x > 0 ? 2 : -2, 0);
         else
             direction = new Vector2Int(0, direction.y > 0 ? 2 : -2);
 
-        currentTile += direction;
+        Vector2Int nextTile = currentTile + direction;
+
+        // 🚨 NEW: Check if room exists
+        if (!ShipGrid.Instance.HasRoom(nextTile))
+            return;
+
+        currentTile = nextTile;
         targetPos = ShipGridManager.Instance.GridToWorld(currentTile);
+    }
+    bool IsBlocked(Vector2Int from, Vector2Int to)
+    {
+        Door[] doors = FindObjectsOfType<Door>();
+
+        foreach (Door door in doors)
+        {
+            if (door.gridPosition == to && !door.isOpen)
+                return true;
+        }
+
+        return false;
     }
 }
