@@ -4,56 +4,48 @@ using System.Collections.Generic;
 
 public class Room : MonoBehaviour
 {
-    [Header("Room Tilemap")]
-    public Tilemap tilemap; // Assign this in the Inspector (one per Room)
+    [Header("Tilemap")]
+    public Tilemap tilemap;
 
-    [Header("Room Info")]
-    public Vector2Int gridPosition;      // Bottom-left tile of the room in the grid
+    [Header("Tiles")]
     public List<Vector3Int> tiles = new List<Vector3Int>();
+    public Vector2Int gridPosition;
 
+    [Header("Connections")]
     public List<RoomConnection> connections = new List<RoomConnection>();
+
+    [Header("Flood State")]
+    public bool isFlooded = false;
+
+    [Header("Colors")]
+    public Color normalColor = Color.white;
+    public Color floodedColor = Color.cyan;
 
     void Awake()
     {
-        // Make sure we have a Tilemap assigned
         if (tilemap == null)
-        {
             tilemap = GetComponent<Tilemap>();
-            if (tilemap == null)
-            {
-                Debug.LogError("Room requires a Tilemap component!");
-                return;
-            }
-        }
 
-        SetGridPosition(); // Set bottom-left tile
-        GetTiles();        // Cache all tiles
-    }
-    void Start()
-    {
+        SetGridPosition();
+        GetTiles();
         RegisterRoom();
     }
 
-    // Use the bottom-left tile of this Tilemap as the room's grid position
-    void SetGridPosition()
+    void Start()
     {
-        BoundsInt bounds = tilemap.cellBounds;
-
-        // Find first tile in bounds (safe in case there are empty tiles)
-        foreach (Vector3Int pos in bounds.allPositionsWithin)
-        {
-            if (tilemap.HasTile(pos))
-            {
-                gridPosition = new Vector2Int(pos.x, pos.y);
-                break;
-            }
-        }
+        UpdateVisual(); // ensure correct color at start
     }
 
-    // Cache all tiles that exist in this room
+    void SetGridPosition()
+    {
+        Vector3Int cellPos = tilemap.cellBounds.min;
+        gridPosition = new Vector2Int(cellPos.x, cellPos.y);
+    }
+
     void GetTiles()
     {
         tiles.Clear();
+
         BoundsInt bounds = tilemap.cellBounds;
 
         foreach (Vector3Int pos in bounds.allPositionsWithin)
@@ -74,6 +66,26 @@ public class Room : MonoBehaviour
         else
         {
             Debug.LogError("No ShipGrid found in scene!");
+        }
+    }
+
+    // 🌊 Set flooded state
+    public void SetFlooded(bool flooded)
+    {
+        isFlooded = flooded;
+        UpdateVisual();
+    }
+
+    // 🎨 Update tile colors
+    public void UpdateVisual()
+    {
+        if (tilemap == null) return;
+
+        Color color = isFlooded ? floodedColor : normalColor;
+
+        foreach (var tile in tiles)
+        {
+            tilemap.SetColor(tile, color);
         }
     }
 }

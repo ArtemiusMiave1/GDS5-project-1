@@ -4,10 +4,7 @@ using System.Collections.Generic;
 public class Door : MonoBehaviour
 {
     [Header("State")]
-    public bool isOpen = true;
-
-    [Header("Debug")]
-    public bool toggleDoorButton; // 👈 click in Inspector
+    public bool isOpen = false; // start CLOSED
 
     [Header("References")]
     public Collider2D doorCollider;
@@ -28,17 +25,18 @@ public class Door : MonoBehaviour
 
         SetGridPosition();
         RegisterWithRooms();
+
         UpdateVisual();
+
+        // Ensure collider matches closed state
+        if (doorCollider != null)
+            doorCollider.enabled = !isOpen;
     }
 
-    void Update()
+    // Called when player clicks on the door
+    void OnMouseDown()
     {
-        // Inspector button trigger
-        if (toggleDoorButton)
-        {
-            toggleDoorButton = false;
-            ToggleDoor();
-        }
+        ToggleDoor();
     }
 
     // 🔄 Toggle door open/closed
@@ -48,11 +46,15 @@ public class Door : MonoBehaviour
 
         if (doorCollider != null)
             doorCollider.enabled = !isOpen;
-
+        // Trigger NPCs to recalc paths
+        foreach (NPCMovement npc in FindObjectsOfType<NPCMovement>())
+        {
+            npc.OnDoorStateChanged();
+        }
         UpdateVisual();
     }
 
-    // 🎨 Update color
+    // 🎨 Update sprite color based on state
     void UpdateVisual()
     {
         if (spriteRenderer == null) return;
@@ -60,7 +62,7 @@ public class Door : MonoBehaviour
         spriteRenderer.color = isOpen ? Color.blue : Color.red;
     }
 
-    // 🔁 Convert world position → grid position (NO snapping)
+    // 🔁 Convert world position → grid position (without snapping)
     void SetGridPosition()
     {
         if (ShipGridManager.Instance == null || ShipGridManager.Instance.grid == null)
@@ -73,20 +75,19 @@ public class Door : MonoBehaviour
         gridPosition = new Vector2Int(cell.x, cell.y);
     }
 
-    // 🔍 Find which rooms this door connects
+    // 🔍 Detect which rooms this door connects
     void RegisterWithRooms()
     {
         Room[] allRooms = FindObjectsOfType<Room>();
-
         List<Room> foundRooms = new List<Room>();
 
-        // Small offsets around the door
+        // Offsets to check around the door in world space
         Vector3[] offsets = new Vector3[]
         {
-        Vector3.left * 0.6f,
-        Vector3.right * 0.6f,
-        Vector3.up * 0.6f,
-        Vector3.down * 0.6f
+            Vector3.left * 0.6f,
+            Vector3.right * 0.6f,
+            Vector3.up * 0.6f,
+            Vector3.down * 0.6f
         };
 
         foreach (Vector3 offset in offsets)
@@ -99,13 +100,10 @@ public class Door : MonoBehaviour
 
                 Vector3Int cell = room.tilemap.WorldToCell(checkPos);
 
-                if (room.tilemap.HasTile(cell))
+                if (room.tilemap.HasTile(cell) && !foundRooms.Contains(room))
                 {
-                    if (!foundRooms.Contains(room))
-                    {
-                        foundRooms.Add(room);
-                        Debug.Log($"Door found room at {room.gridPosition}");
-                    }
+                    foundRooms.Add(room);
+                    Debug.Log($"Door found room at {room.gridPosition}");
                 }
             }
         }
@@ -114,7 +112,6 @@ public class Door : MonoBehaviour
         {
             roomA = foundRooms[0];
             roomB = foundRooms[1];
-
             ConnectRooms();
         }
         else
@@ -123,20 +120,20 @@ public class Door : MonoBehaviour
         }
     }
 
-    // 🔗 Create connections between rooms
+    // 🔗 Connect rooms for pathfinding
     void ConnectRooms()
     {
         if (roomA == null || roomB == null) return;
 
         Vector2Int dirAB = roomB.gridPosition - roomA.gridPosition;
 
-        // Normalize direction (so it's -1, 0, or 1)
+        // Normalize direction to -1,0,1
         dirAB = new Vector2Int(
             Mathf.Clamp(dirAB.x, -1, 1),
             Mathf.Clamp(dirAB.y, -1, 1)
         );
 
-        // Add connection A → B
+        // Room A → B
         roomA.connections.Add(new RoomConnection
         {
             targetRoom = roomB,
@@ -144,7 +141,7 @@ public class Door : MonoBehaviour
             direction = dirAB
         });
 
-        // Add connection B → A
+        // Room B → A
         roomB.connections.Add(new RoomConnection
         {
             targetRoom = roomA,

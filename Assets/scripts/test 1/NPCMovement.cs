@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class NPCMovement : MonoBehaviour
 {
     [Header("Target")]
-    public Transform targetObject; // 👈 assign in Inspector
+    public Transform targetObject;
 
     [Header("Movement")]
     public float moveSpeed = 3f;
@@ -15,19 +16,40 @@ public class NPCMovement : MonoBehaviour
     private List<Room> currentPath = new List<Room>();
     private int pathIndex = 0;
 
+    private bool isBlocked = false;
+
+    IEnumerator Start()
+    {
+        yield return null; // wait 1 frame so rooms + doors register
+
+        UpdateCurrentTile();
+
+        targetPos = ShipGridManager.Instance.GridToWorld(currentTile);
+        transform.position = targetPos;
+
+        CalculatePath();
+    }
 
     void Update()
     {
-        if (currentPath == null || currentPath.Count == 0 || targetPos == null)
+        if (currentPath == null)
         {
-            UpdateCurrentTile();
+            Debug.LogWarning("no current path");
+            Debug.LogWarning(currentPath.Count);
 
-            targetPos = ShipGridManager.Instance.GridToWorld(currentTile);
-            transform.position = targetPos;
-
-            CalculatePath();
+            return;
         }
 
+        // 🚪 Check if next step is blocked by a closed door
+        if (IsNextStepBlocked())
+        {
+            isBlocked = true;
+            return; // STOP here
+        }
+
+        isBlocked = false;
+
+        // Move toward next room
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, targetPos) < 0.01f)
@@ -36,32 +58,26 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
-    // 🔁 Convert NPC position → grid tile
+    // 🔁 Update current tile
     void UpdateCurrentTile()
     {
         currentTile = ShipGridManager.Instance.WorldToGrid(transform.position);
     }
 
-    // 🔁 Convert target object → grid tile
     Vector2Int GetTargetTile()
     {
         return ShipGridManager.Instance.WorldToGrid(targetObject.position);
     }
 
-    // 🚀 A* PATHFINDING
+    // 🚀 A* PATH
     void CalculatePath()
     {
         Room startRoom = ShipGrid.Instance.GetRoom(currentTile);
         Room targetRoom = ShipGrid.Instance.GetRoom(GetTargetTile());
 
-        if (startRoom == null)
+        if (startRoom == null || targetRoom == null)
         {
-            Debug.LogError("A*: Start");
-            return;
-        }
-        if (targetRoom == null)
-        {
-            Debug.LogError("A*: Target room is null!");
+            Debug.LogError("A*: Start or Target room is null!");
             return;
         }
 
@@ -90,14 +106,48 @@ public class NPCMovement : MonoBehaviour
         targetPos = ShipGridManager.Instance.GridToWorld(currentTile);
     }
 
-    // 🧠 A* IMPLEMENTATION
+    // 🚪 Check if next door is closed
+    bool IsNextStepBlocked()
+    {
+        if (pathIndex >= currentPath.Count - 1)
+            return false;
+
+        Room currentRoom = currentPath[pathIndex];
+        Room nextRoom = currentPath[pathIndex + 1];
+
+        foreach (RoomConnection conn in currentRoom.connections)
+        {
+            if (conn.targetRoom == nextRoom)
+            {
+                if (!conn.door.isOpen)
+                {
+                    Debug.Log("NPC waiting at closed door");
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // 🔄 Call this when a door changes state
+    public void OnDoorStateChanged()
+    {
+        CalculatePath();
+        //if (isBlocked)
+        //{
+        //    Debug.Log("Door changed → recalculating path");
+        //    CalculatePath();
+        //}
+    }
+
+    // 🧠 A*
     List<Room> FindPath(Room start, Room goal)
     {
         List<Room> openSet = new List<Room>();
         HashSet<Room> closedSet = new HashSet<Room>();
 
         Dictionary<Room, Room> cameFrom = new Dictionary<Room, Room>();
-
         Dictionary<Room, float> gScore = new Dictionary<Room, float>();
         Dictionary<Room, float> fScore = new Dictionary<Room, float>();
 
@@ -117,7 +167,6 @@ public class NPCMovement : MonoBehaviour
 
             foreach (RoomConnection conn in current.connections)
             {
-                // 🚪 Skip closed doors
                 if (!conn.door.isOpen)
                     continue;
 
@@ -138,7 +187,6 @@ public class NPCMovement : MonoBehaviour
                 fScore[neighbor] = tentativeG + Heuristic(neighbor, goal);
             }
         }
-
         Debug.LogWarning("A*: No path found!");
         return new List<Room>();
     }

@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 29804288}
+  - component: {fileID: 29804289}
   m_Layer: 0
   m_Name: Doors
   m_TagString: Untagged
@@ -158,6 +159,18 @@ Transform:
   - {fileID: 1423762252}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &29804289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29804287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 925ef5758e71aeb4a86aadd046c26d61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoorController
 --- !u!1 &82065426
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +442,7 @@ GameObject:
   - component: {fileID: 189421210}
   - component: {fileID: 189421211}
   - component: {fileID: 189421212}
+  - component: {fileID: 189421213}
   m_Layer: 0
   m_Name: Door (3)
   m_TagString: Untagged
@@ -522,13 +536,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
+  isOpen: 0
   doorCollider: {fileID: 0}
   spriteRenderer: {fileID: 0}
   gridPosition: {x: 0, y: 0}
   roomA: {fileID: 0}
   roomB: {fileID: 0}
+--- !u!65 &189421213
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189421209}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &287183158
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +635,7 @@ GameObject:
   - component: {fileID: 363746371}
   - component: {fileID: 363746372}
   - component: {fileID: 363746373}
+  - component: {fileID: 363746374}
   m_Layer: 0
   m_Name: Door (1)
   m_TagString: Untagged
@@ -694,13 +729,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
+  isOpen: 0
   doorCollider: {fileID: 0}
   spriteRenderer: {fileID: 0}
   gridPosition: {x: 0, y: 0}
   roomA: {fileID: 0}
   roomB: {fileID: 0}
+--- !u!65 &363746374
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363746370}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &434628934
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,7 +996,7 @@ GameObject:
   - component: {fileID: 524494262}
   - component: {fileID: 524494261}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -956,7 +1011,7 @@ Transform:
   m_GameObject: {fileID: 524494259}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9, y: -2, z: 0}
+  m_LocalPosition: {x: -7.97, y: -1.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1274,6 +1329,7 @@ GameObject:
   - component: {fileID: 952052863}
   - component: {fileID: 952052864}
   - component: {fileID: 952052865}
+  - component: {fileID: 952052866}
   m_Layer: 0
   m_Name: Door (4)
   m_TagString: Untagged
@@ -1367,13 +1423,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
+  isOpen: 0
   doorCollider: {fileID: 0}
   spriteRenderer: {fileID: 0}
   gridPosition: {x: 0, y: 0}
   roomA: {fileID: 0}
   roomB: {fileID: 0}
+--- !u!65 &952052866
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952052862}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &997012790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1385,6 +1461,7 @@ GameObject:
   - component: {fileID: 997012791}
   - component: {fileID: 997012792}
   - component: {fileID: 997012793}
+  - component: {fileID: 997012794}
   m_Layer: 0
   m_Name: Door (6)
   m_TagString: Untagged
@@ -1478,13 +1555,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
+  isOpen: 0
   doorCollider: {fileID: 0}
   spriteRenderer: {fileID: 0}
   gridPosition: {x: 0, y: 0}
   roomA: {fileID: 0}
   roomB: {fileID: 0}
+--- !u!65 &997012794
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997012790}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1222983841
 GameObject:
   m_ObjectHideFlags: 0
@@ -2103,6 +2200,7 @@ GameObject:
   - component: {fileID: 1421039190}
   - component: {fileID: 1421039191}
   - component: {fileID: 1421039192}
+  - component: {fileID: 1421039193}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -2196,13 +2294,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
+  isOpen: 0
   doorCollider: {fileID: 0}
   spriteRenderer: {fileID: 0}
   gridPosition: {x: 0, y: 0}
   roomA: {fileID: 0}
   roomB: {fileID: 0}
+--- !u!65 &1421039193
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421039189}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1423762251
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,6 +2332,7 @@ GameObject:
   - component: {fileID: 1423762252}
   - component: {fileID: 1423762253}
   - component: {fileID: 1423762254}
+  - component: {fileID: 1423762255}
   m_Layer: 0
   m_Name: Door (7)
   m_TagString: Untagged
@@ -2307,13 +2426,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
+  isOpen: 0
   doorCollider: {fileID: 0}
   spriteRenderer: {fileID: 0}
   gridPosition: {x: 0, y: 0}
   roomA: {fileID: 0}
   roomB: {fileID: 0}
+--- !u!65 &1423762255
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423762251}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1462872480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2568,7 +2707,7 @@ Transform:
   m_GameObject: {fileID: 1481025557}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 0}
+  m_LocalPosition: {x: -1.97, y: 1.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2683,6 +2822,7 @@ GameObject:
   - component: {fileID: 1507595844}
   - component: {fileID: 1507595845}
   - component: {fileID: 1507595846}
+  - component: {fileID: 1507595847}
   m_Layer: 0
   m_Name: Door (2)
   m_TagString: Untagged
@@ -2776,13 +2916,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
+  isOpen: 0
   doorCollider: {fileID: 0}
   spriteRenderer: {fileID: 0}
   gridPosition: {x: 0, y: 0}
   roomA: {fileID: 0}
   roomB: {fileID: 0}
+--- !u!65 &1507595847
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507595843}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1824792397
 GameObject:
   m_ObjectHideFlags: 0
@@ -2794,6 +2954,7 @@ GameObject:
   - component: {fileID: 1824792398}
   - component: {fileID: 1824792399}
   - component: {fileID: 1824792400}
+  - component: {fileID: 1824792401}
   m_Layer: 0
   m_Name: Door (5)
   m_TagString: Untagged
@@ -2887,13 +3048,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
+  isOpen: 0
   doorCollider: {fileID: 0}
   spriteRenderer: {fileID: 0}
   gridPosition: {x: 0, y: 0}
   roomA: {fileID: 0}
   roomB: {fileID: 0}
+--- !u!65 &1824792401
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824792397}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1856272937
 GameObject:
   m_ObjectHideFlags: 0
