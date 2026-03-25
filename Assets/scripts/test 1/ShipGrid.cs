@@ -9,7 +9,7 @@ public class ShipGrid : MonoBehaviour
 
     void Start()
     {
-        PrintRooms();
+        //PrintRooms();
     }
 
     void Awake()
@@ -27,8 +27,18 @@ public class ShipGrid : MonoBehaviour
 
     public Room GetRoom(Vector2Int pos)
     {
-        roomLookup.TryGetValue(pos, out Room room);
-        return room;
+        foreach (var room in roomLookup.Values)
+        {
+            foreach (var tile in room.tiles)
+            {
+                if (tile.x == pos.x && tile.y == pos.y)
+                {
+                    return room;
+                }
+            }
+        }
+
+        return null;
     }
 
     public bool HasRoom(Vector2Int pos)
@@ -36,7 +46,7 @@ public class ShipGrid : MonoBehaviour
         return roomLookup.ContainsKey(pos);
     }
 
-    void PrintRooms()
+    public void PrintRooms()
     {
         Debug.Log("---- Current Rooms ----");
 
@@ -45,7 +55,7 @@ public class ShipGrid : MonoBehaviour
             Room room = entry.Value;
 
             Debug.Log(
-                "Room at: " + entry.Key +
+                "Roomat: " + entry.Key +
                 " | Tile Count: " + room.tiles.Count
             );
         }

@@ -428,7 +428,6 @@ GameObject:
   m_Component:
   - component: {fileID: 189421210}
   - component: {fileID: 189421211}
-  - component: {fileID: 189421212}
   m_Layer: 0
   m_Name: Door (3)
   m_TagString: Untagged
@@ -510,25 +509,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &189421212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189421209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
-  doorCollider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
-  roomA: {fileID: 0}
-  roomB: {fileID: 0}
 --- !u!1 &287183158
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,8 +553,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 524494260}
-  - {fileID: 1481025558}
   - {fileID: 2143385346}
+  - {fileID: 1904438558}
   - {fileID: 1502661379}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -600,7 +580,6 @@ GameObject:
   m_Component:
   - component: {fileID: 363746371}
   - component: {fileID: 363746372}
-  - component: {fileID: 363746373}
   m_Layer: 0
   m_Name: Door (1)
   m_TagString: Untagged
@@ -682,25 +661,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &363746373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 363746370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
-  doorCollider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
-  roomA: {fileID: 0}
-  roomB: {fileID: 0}
 --- !u!1 &434628934
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,7 +916,7 @@ Transform:
   m_GameObject: {fileID: 524494259}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9, y: -2, z: 0}
+  m_LocalPosition: {x: -8, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -974,7 +934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39de7ed4b546a8c449b6d78c278177ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 1481025558}
+  targetObject: {fileID: 1904438558}
   moveSpeed: 2
 --- !u!212 &524494262
 SpriteRenderer:
@@ -1273,7 +1233,6 @@ GameObject:
   m_Component:
   - component: {fileID: 952052863}
   - component: {fileID: 952052864}
-  - component: {fileID: 952052865}
   m_Layer: 0
   m_Name: Door (4)
   m_TagString: Untagged
@@ -1355,25 +1314,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &952052865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952052862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
-  doorCollider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
-  roomA: {fileID: 0}
-  roomB: {fileID: 0}
 --- !u!1 &997012790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,7 +1324,6 @@ GameObject:
   m_Component:
   - component: {fileID: 997012791}
   - component: {fileID: 997012792}
-  - component: {fileID: 997012793}
   m_Layer: 0
   m_Name: Door (6)
   m_TagString: Untagged
@@ -1466,25 +1405,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &997012793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 997012790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
-  doorCollider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
-  roomA: {fileID: 0}
-  roomB: {fileID: 0}
 --- !u!1 &1222983841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,7 +1733,7 @@ Transform:
   m_GameObject: {fileID: 1283813732}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.37, y: -0.07, z: 0}
+  m_LocalPosition: {x: -8, y: -4.5, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2102,7 +2022,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1421039190}
   - component: {fileID: 1421039191}
-  - component: {fileID: 1421039192}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -2184,25 +2103,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1421039192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421039189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
-  doorCollider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
-  roomA: {fileID: 0}
-  roomB: {fileID: 0}
 --- !u!1 &1423762251
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,7 +2113,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1423762252}
   - component: {fileID: 1423762253}
-  - component: {fileID: 1423762254}
   m_Layer: 0
   m_Name: Door (7)
   m_TagString: Untagged
@@ -2295,25 +2194,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1423762254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1423762251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
-  doorCollider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
-  roomA: {fileID: 0}
-  roomB: {fileID: 0}
 --- !u!1 &1462872480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2542,97 +2422,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1481025557
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1481025558}
-  - component: {fileID: 1481025559}
-  m_Layer: 0
-  m_Name: target
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1481025558
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481025557}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 287183160}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1481025559
-SpriteRenderer:
-  serializedVersion: 2
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481025557}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: -3561148701943319872, guid: e0056250907a600458e2ff60cd9a8006, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
 --- !u!1 &1502661378
 GameObject:
   m_ObjectHideFlags: 0
@@ -2682,7 +2471,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1507595844}
   - component: {fileID: 1507595845}
-  - component: {fileID: 1507595846}
   m_Layer: 0
   m_Name: Door (2)
   m_TagString: Untagged
@@ -2764,25 +2552,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1507595846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1507595843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
-  doorCollider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
-  roomA: {fileID: 0}
-  roomB: {fileID: 0}
 --- !u!1 &1824792397
 GameObject:
   m_ObjectHideFlags: 0
@@ -2793,7 +2562,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1824792398}
   - component: {fileID: 1824792399}
-  - component: {fileID: 1824792400}
   m_Layer: 0
   m_Name: Door (5)
   m_TagString: Untagged
@@ -2875,25 +2643,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1824792400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824792397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d67bd095827d7f44b90ffcc775ab2fd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOpen: 1
-  toggleDoorButton: 0
-  doorCollider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
-  roomA: {fileID: 0}
-  roomB: {fileID: 0}
 --- !u!1 &1856272937
 GameObject:
   m_ObjectHideFlags: 0
@@ -3031,6 +2780,97 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1904438557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1904438558}
+  - component: {fileID: 1904438559}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1904438558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904438557}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 287183160}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1904438559
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904438557}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: fa9b0f31f6014364ea1f7decbac47df8, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -3561148701943319872, guid: e0056250907a600458e2ff60cd9a8006, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
 --- !u!1 &2143385345
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
@@ -10,6 +10,8 @@ public class Room : MonoBehaviour
     [Header("Room Info")]
     public Vector2Int gridPosition;      // Bottom-left tile of the room in the grid
     public List<Vector3Int> tiles = new List<Vector3Int>();
+
+    public List<RoomConnection> connections = new List<RoomConnection>();
 
     void Awake()
     {
@@ -26,7 +28,10 @@ public class Room : MonoBehaviour
 
         SetGridPosition(); // Set bottom-left tile
         GetTiles();        // Cache all tiles
-        RegisterRoom();    // Add to ShipGrid
+    }
+    void Start()
+    {
+        RegisterRoom();
     }
 
     // Use the bottom-left tile of this Tilemap as the room's grid position

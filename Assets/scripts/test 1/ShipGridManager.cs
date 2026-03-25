@@ -4,16 +4,27 @@ public class ShipGridManager : MonoBehaviour
 {
     public static ShipGridManager Instance;
 
-    public int roomSize = 2; // Each room is 2x2 tiles
+    public Grid grid; 
 
     void Awake()
     {
         Instance = this;
+
+        if (grid == null)
+        {
+            Debug.LogError("Grid is not assigned!");
+        }
     }
 
-    // Converts grid/world tile to world position 
     public Vector3 GridToWorld(Vector2Int gridPos)
     {
-        return new Vector3(gridPos.x, gridPos.y, 0);
+        Vector3Int cell = new Vector3Int(gridPos.x, gridPos.y, 0);
+        return grid.CellToWorld(cell) + grid.cellSize / 2f;
+    }
+
+    public Vector2Int WorldToGrid(Vector3 worldPos)
+    {
+        Vector3Int cell = grid.WorldToCell(worldPos);
+        return new Vector2Int(cell.x, cell.y);
     }
 }
