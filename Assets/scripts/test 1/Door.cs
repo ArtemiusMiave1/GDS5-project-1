@@ -46,11 +46,16 @@ public class Door : MonoBehaviour
 
         if (doorCollider != null)
             doorCollider.enabled = !isOpen;
-        // Trigger NPCs to recalc paths
+
+        // Update NPC paths
         foreach (NPCMovement npc in FindObjectsOfType<NPCMovement>())
         {
             npc.OnDoorStateChanged();
         }
+
+        // ✅ Automatically update flood
+        FindObjectOfType<FloodManager>()?.UpdateFlood();
+
         UpdateVisual();
     }
 

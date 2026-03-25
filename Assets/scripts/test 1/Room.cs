@@ -17,6 +17,8 @@ public class Room : MonoBehaviour
     [Header("Inspector Debug")]
     public bool printRoomInfoButton; // Click this to print
 
+    public bool isFlooded = false;
+
     void Awake()
     {
         if (tilemap == null)
@@ -24,7 +26,11 @@ public class Room : MonoBehaviour
 
         SetGridPosition();
         GetTiles();
-        RegisterRoom();
+    }
+
+    void Start()
+    {
+        RegisterRoom(); // ✅ ShipGrid is guaranteed to exist now
     }
 
     void Update()
@@ -42,6 +48,8 @@ public class Room : MonoBehaviour
 
         tiles.Clear();
 
+        tilemap.CompressBounds(); // 🔥 FIX
+
         BoundsInt bounds = tilemap.cellBounds;
 
         int minX = int.MaxValue;
@@ -58,9 +66,15 @@ public class Room : MonoBehaviour
             }
         }
 
+        Debug.Log($"{name} found {tiles.Count} tiles");
+
         if (tiles.Count > 0)
         {
-            gridPosition = new Vector2Int(minX, minY); // bottom-left occupied tile
+            gridPosition = new Vector2Int(minX, minY);
+        }
+        else
+        {
+            Debug.LogError($"{name} has NO tiles!");
         }
     }
 

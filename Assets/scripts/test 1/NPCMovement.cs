@@ -61,11 +61,8 @@ public class NPCMovement : MonoBehaviour
     // 🚀 A* PATH
     void CalculatePath()
     {
-        Room startRoom = ShipGrid.Instance.GetRoom(currentTile);
+        Room startRoom = GetCurrentRoom();
         Room targetRoom = ShipGrid.Instance.GetRoom(GetTargetTile());
-        Debug.LogError(targetRoom);
-        Debug.LogError(startRoom);
-
 
         if (startRoom == null || targetRoom == null)
         {
@@ -73,13 +70,11 @@ public class NPCMovement : MonoBehaviour
             return;
         }
 
-        currentPath = FindPath(startRoom, targetRoom);
+        currentPath = AStarPathfinding.FindPath(startRoom, targetRoom);
         pathIndex = 0;
 
         if (currentPath.Count > 0)
-        {
             MoveToRoom(currentPath[0]);
-        }
     }
 
     void MoveAlongPath()
@@ -92,10 +87,23 @@ public class NPCMovement : MonoBehaviour
         MoveToRoom(currentPath[pathIndex]);
     }
 
+    Room GetCurrentRoom()
+    {
+        Vector2Int tile = ShipGridManager.Instance.WorldToGrid(transform.position);
+        Room room = ShipGrid.Instance.GetRoom(tile);
+
+        if (room == null && currentPath != null && pathIndex < currentPath.Count)
+        {
+            // Fallback: assume still in the previous room if slightly outside
+            room = currentPath[pathIndex];
+        }
+
+        return room;
+    }
+
     void MoveToRoom(Room room)
     {
-        currentTile = room.gridPosition;
-        targetPos = ShipGridManager.Instance.GridToWorld(currentTile);
+        targetPos = ShipGridManager.Instance.GridToWorld(room.gridPosition) + new Vector3(1f, 1f, 0f) * 0.5f; // center of room
     }
 
     // 🚪 Check if next door is closed

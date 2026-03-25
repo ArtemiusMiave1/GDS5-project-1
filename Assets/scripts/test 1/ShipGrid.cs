@@ -32,9 +32,7 @@ public class ShipGrid : MonoBehaviour
             foreach (var tile in room.tiles)
             {
                 if (tile.x == pos.x && tile.y == pos.y)
-                {
                     return room;
-                }
             }
         }
 
