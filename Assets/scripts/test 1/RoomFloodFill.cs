@@ -1,86 +1,54 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class RoomFloodFill : MonoBehaviour
+public static class FloodSystem
 {
-    [Header("Settings")]
-    public Transform originObject;
-
-    [Header("Debug")]
-    public bool runFlood;
-
-    private HashSet<Room> floodedRooms = new HashSet<Room>();
-
-    void Update()
+    // 🔹 Floods rooms starting from a given object
+    public static void RoomFloodFill(GameObject startObject, Color floodColor)
     {
-        if (runFlood)
+        if (startObject == null)
         {
-            runFlood = false;
-            RunFlood();
-        }
-    }
-
-    public void RunFlood()
-    {
-        // 🔄 Reset all rooms
-        foreach (Room room in FindObjectsOfType<Room>())
-        {
-            room.SetFlooded(false);
-        }
-
-        floodedRooms.Clear();
-
-        Room startRoom = FindRoomAtPosition(originObject.position);
-
-        if (startRoom == null)
-        {
-            Debug.LogError("Flood: No starting room found!");
+            Debug.LogWarning("Flood: Start object is null!");
             return;
         }
 
-        Queue<Room> queue = new Queue<Room>();
+        // Find starting room
+        Vector2Int startTile = ShipGridManager.Instance.WorldToGrid(startObject.transform.position);
+        Room startRoom = ShipGrid.Instance.GetRoom(startTile);
 
-        queue.Enqueue(startRoom);
-        floodedRooms.Add(startRoom);
-        startRoom.SetFlooded(true);
-
-        while (queue.Count > 0)
+        if (startRoom == null)
         {
-            Room current = queue.Dequeue();
+            Debug.LogWarning("Flood: Start object is not inside any room!");
+            return;
+        }
 
+        Queue<Room> toFlood = new Queue<Room>();
+        HashSet<Room> visited = new HashSet<Room>();
+
+        toFlood.Enqueue(startRoom);
+        visited.Add(startRoom);
+
+        while (toFlood.Count > 0)
+        {
+            Room current = toFlood.Dequeue();
+            current.isFlooded = true; // Make sure your Room class has this bool
+
+            // Change tilemap color to indicate flood
+            if (current.tilemap != null)
+            {
+                current.tilemap.color = floodColor;
+            }
+
+            // Check connected rooms through open doors
             foreach (RoomConnection conn in current.connections)
             {
-                // 🚪 Only spread through OPEN doors
-                if (!conn.door.isOpen)
-                    continue;
-
                 Room neighbor = conn.targetRoom;
-
-                if (!floodedRooms.Contains(neighbor))
+                if (neighbor != null && !visited.Contains(neighbor) && conn.door != null && conn.door.isOpen)
                 {
-                    floodedRooms.Add(neighbor);
-                    neighbor.SetFlooded(true);
-                    queue.Enqueue(neighbor);
+                    toFlood.Enqueue(neighbor);
+                    visited.Add(neighbor);
                 }
             }
         }
-
-        Debug.Log("Flooded rooms count: " + floodedRooms.Count);
-    }
-
-    // 🔍 Find room at world position
-    Room FindRoomAtPosition(Vector3 worldPos)
-    {
-        foreach (Room room in FindObjectsOfType<Room>())
-        {
-            if (room.tilemap == null) continue;
-
-            Vector3Int cell = room.tilemap.WorldToCell(worldPos);
-
-            if (room.tilemap.HasTile(cell))
-                return room;
-        }
-
-        return null;
     }
 }

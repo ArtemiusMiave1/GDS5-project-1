@@ -221,9 +221,7 @@ MonoBehaviour:
   tiles: []
   gridPosition: {x: 0, y: 0}
   connections: []
-  isFlooded: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  floodedColor: {r: 0, g: 1, b: 1, a: 1}
+  printRoomInfoButton: 0
 --- !u!483693784 &82065429
 TilemapRenderer:
   serializedVersion: 2
@@ -809,9 +807,7 @@ MonoBehaviour:
   tiles: []
   gridPosition: {x: 0, y: 0}
   connections: []
-  isFlooded: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  floodedColor: {r: 0, g: 1, b: 1, a: 1}
+  printRoomInfoButton: 0
 --- !u!483693784 &434628937
 TilemapRenderer:
   serializedVersion: 2
@@ -1146,9 +1142,7 @@ MonoBehaviour:
   tiles: []
   gridPosition: {x: 0, y: 0}
   connections: []
-  isFlooded: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  floodedColor: {r: 0, g: 1, b: 1, a: 1}
+  printRoomInfoButton: 0
 --- !u!483693784 &740935292
 TilemapRenderer:
   serializedVersion: 2
@@ -1641,9 +1635,7 @@ MonoBehaviour:
   tiles: []
   gridPosition: {x: 0, y: 0}
   connections: []
-  isFlooded: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  floodedColor: {r: 0, g: 1, b: 1, a: 1}
+  printRoomInfoButton: 0
 --- !u!483693784 &1222983844
 TilemapRenderer:
   serializedVersion: 2
@@ -1978,9 +1970,7 @@ MonoBehaviour:
   tiles: []
   gridPosition: {x: 0, y: 0}
   connections: []
-  isFlooded: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  floodedColor: {r: 0, g: 1, b: 1, a: 1}
+  printRoomInfoButton: 1
 --- !u!483693784 &1372870817
 TilemapRenderer:
   serializedVersion: 2
@@ -2518,9 +2508,7 @@ MonoBehaviour:
   tiles: []
   gridPosition: {x: 0, y: 0}
   connections: []
-  isFlooded: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  floodedColor: {r: 0, g: 1, b: 1, a: 1}
+  printRoomInfoButton: 0
 --- !u!483693784 &1462872483
 TilemapRenderer:
   serializedVersion: 2
@@ -10908,9 +10896,7 @@ MonoBehaviour:
   tiles: []
   gridPosition: {x: 0, y: 0}
   connections: []
-  isFlooded: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  floodedColor: {r: 0, g: 1, b: 1, a: 1}
+  printRoomInfoButton: 0
 --- !u!1839735485 &4366960982748661706
 Tilemap:
   m_ObjectHideFlags: 0
@@ -11064,9 +11050,7 @@ MonoBehaviour:
   tiles: []
   gridPosition: {x: 0, y: 0}
   connections: []
-  isFlooded: 0
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  floodedColor: {r: 0, g: 1, b: 1, a: 1}
+  printRoomInfoButton: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

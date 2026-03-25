@@ -14,24 +14,10 @@ public class Room : MonoBehaviour
     [Header("Connections")]
     public List<RoomConnection> connections = new List<RoomConnection>();
 
-    [Header("Flood State")]
-    public bool isFlooded = false;
-
-    [Header("Colors")]
-    public Color normalColor = Color.white;
-    public Color floodedColor = Color.cyan;
+    [Header("Inspector Debug")]
+    public bool printRoomInfoButton; // Click this to print
 
     void Awake()
-    {
-        //if (tilemap == null)
-        //    tilemap = GetComponent<Tilemap>();
-
-        //SetGridPosition();
-        //GetTiles();
-        //RegisterRoom();
-    }
-
-    void Start()
     {
         if (tilemap == null)
             tilemap = GetComponent<Tilemap>();
@@ -39,7 +25,15 @@ public class Room : MonoBehaviour
         SetGridPosition();
         GetTiles();
         RegisterRoom();
-        UpdateVisual(); // ensure correct color at start
+    }
+
+    void Update()
+    {
+        if (printRoomInfoButton)
+        {
+            printRoomInfoButton = false;
+            PrintRoomInfo();
+        }
     }
 
     void SetGridPosition()
@@ -48,7 +42,6 @@ public class Room : MonoBehaviour
 
         tiles.Clear();
 
-        // Go through all tiles that actually exist
         BoundsInt bounds = tilemap.cellBounds;
 
         int minX = int.MaxValue;
@@ -60,7 +53,6 @@ public class Room : MonoBehaviour
             {
                 tiles.Add(pos);
 
-                // Track bottom-left occupied tile
                 if (pos.x < minX) minX = pos.x;
                 if (pos.y < minY) minY = pos.y;
             }
@@ -69,27 +61,13 @@ public class Room : MonoBehaviour
         if (tiles.Count > 0)
         {
             gridPosition = new Vector2Int(minX, minY); // bottom-left occupied tile
-            Debug.Log($"Room gridPosition set to bottom-left occupied tile: {gridPosition}");
-        }
-        else
-        {
-            Debug.LogWarning("Room has no tiles!");
         }
     }
 
     void GetTiles()
     {
-        tiles.Clear();
-
-        BoundsInt bounds = tilemap.cellBounds;
-
-        foreach (Vector3Int pos in bounds.allPositionsWithin)
-        {
-            if (tilemap.HasTile(pos))
-            {
-                tiles.Add(pos);
-            }
-        }
+        // Already filled in SetGridPosition
+        // Keep for compatibility if needed
     }
 
     void RegisterRoom()
@@ -104,23 +82,25 @@ public class Room : MonoBehaviour
         }
     }
 
-    // 🌊 Set flooded state
-    public void SetFlooded(bool flooded)
+    // 🔹 Print the room information to console
+    public void PrintRoomInfo()
     {
-        isFlooded = flooded;
-        UpdateVisual();
-    }
-
-    // 🎨 Update tile colors
-    public void UpdateVisual()
-    {
-        if (tilemap == null) return;
-
-        Color color = isFlooded ? floodedColor : normalColor;
+        Debug.Log($"--- Room at {gridPosition} ---");
+        Debug.Log("Tiles:");
 
         foreach (var tile in tiles)
         {
-            tilemap.SetColor(tile, color);
+            Debug.Log($"  {tile}");
+        }
+
+        Debug.Log("Connections:");
+
+        foreach (var conn in connections)
+        {
+            if (conn.targetRoom != null && conn.door != null)
+            {
+                Debug.Log($"  To Room: {conn.targetRoom.gridPosition}, Door Open: {conn.door.isOpen}, Direction: {conn.direction}");
+            }
         }
     }
 }

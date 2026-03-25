@@ -35,19 +35,8 @@ public class NPCMovement : MonoBehaviour
         if (currentPath == null)
         {
             Debug.LogWarning("no current path");
-            Debug.LogWarning(currentPath.Count);
-
             return;
         }
-
-        // 🚪 Check if next step is blocked by a closed door
-        if (IsNextStepBlocked())
-        {
-            isBlocked = true;
-            return; // STOP here
-        }
-
-        isBlocked = false;
 
         // Move toward next room
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
