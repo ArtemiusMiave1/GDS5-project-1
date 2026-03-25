@@ -218,9 +218,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   tilemap: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
   tiles: []
+  gridPosition: {x: 0, y: 0}
   connections: []
+  isFlooded: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  floodedColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!483693784 &82065429
 TilemapRenderer:
   serializedVersion: 2
@@ -803,9 +806,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   tilemap: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
   tiles: []
+  gridPosition: {x: 0, y: 0}
   connections: []
+  isFlooded: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  floodedColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!483693784 &434628937
 TilemapRenderer:
   serializedVersion: 2
@@ -1011,7 +1017,7 @@ Transform:
   m_GameObject: {fileID: 524494259}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.97, y: -1.03, z: 0}
+  m_LocalPosition: {x: -8, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1137,9 +1143,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   tilemap: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
   tiles: []
+  gridPosition: {x: 0, y: 0}
   connections: []
+  isFlooded: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  floodedColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!483693784 &740935292
 TilemapRenderer:
   serializedVersion: 2
@@ -1629,9 +1638,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   tilemap: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
   tiles: []
+  gridPosition: {x: 0, y: 0}
   connections: []
+  isFlooded: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  floodedColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!483693784 &1222983844
 TilemapRenderer:
   serializedVersion: 2
@@ -1910,7 +1922,7 @@ Transform:
   m_GameObject: {fileID: 1283813732}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.37, y: -0.07, z: 0}
+  m_LocalPosition: {x: -10.07, y: -4, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1963,9 +1975,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   tilemap: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
   tiles: []
+  gridPosition: {x: 0, y: 0}
   connections: []
+  isFlooded: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  floodedColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!483693784 &1372870817
 TilemapRenderer:
   serializedVersion: 2
@@ -2500,9 +2515,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   tilemap: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
   tiles: []
+  gridPosition: {x: 0, y: 0}
   connections: []
+  isFlooded: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  floodedColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!483693784 &1462872483
 TilemapRenderer:
   serializedVersion: 2
@@ -2707,7 +2725,7 @@ Transform:
   m_GameObject: {fileID: 1481025557}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.97, y: 1.05, z: 0}
+  m_LocalPosition: {x: -2, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10887,9 +10905,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   tilemap: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
   tiles: []
+  gridPosition: {x: 0, y: 0}
   connections: []
+  isFlooded: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  floodedColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1839735485 &4366960982748661706
 Tilemap:
   m_ObjectHideFlags: 0
@@ -11039,10 +11060,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa614eca3e17a22498cb4ceff12a86b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
-  tilemap: {fileID: 0}
-  gridPosition: {x: 0, y: 0}
+  tilemap: {fileID: 4366960982748661706}
   tiles: []
+  gridPosition: {x: 0, y: 0}
   connections: []
+  isFlooded: 0
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  floodedColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
