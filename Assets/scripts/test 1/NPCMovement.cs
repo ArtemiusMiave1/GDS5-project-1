@@ -1,44 +1,72 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class NPCMovement : MonoBehaviour
 {
-    [Header("Target")]
-    public Transform targetObject;
+    [Header("Targets")]
+    public List<Transform> targetObjects = new List<Transform>(); // list of targets
+    private int targetIndex = 0;
 
     [Header("Movement")]
     public float moveSpeed = 3f;
 
-    private Vector2Int currentTile;
+    public Vector2Int currentTile;
     private Vector3 targetPos;
 
     private List<Room> currentPath = new List<Room>();
     private int pathIndex = 0;
 
-    private bool isBlocked = false;
-
-    IEnumerator Start()
+    void Start()
     {
-        yield return null; // wait 1 frame so rooms + doors register
+        StartCoroutine(InitializeMovement());
+    }
+
+    IEnumerator InitializeMovement()
+    {
+        yield return null; // wait a frame for rooms/doors to register
 
         UpdateCurrentTile();
-
         targetPos = ShipGridManager.Instance.GridToWorld(currentTile);
         transform.position = targetPos;
 
-        CalculatePath();
+        if (targetObjects.Count > 0)
+            SetTarget(targetObjects[targetIndex]);
     }
 
     void Update()
     {
-        if (currentPath == null)
+        // Update current tile
+        UpdateCurrentTile();
+
+        // Get current room
+        Room currentRoom = ShipGrid.Instance.GetRoom(currentTile);
+
+        // Check if current room is flooded
+        if (currentRoom != null && currentRoom.isFlooded)
         {
-            Debug.LogWarning("no current path");
+            Die();
             return;
         }
 
-        // Move toward next room
+        // ------------------- Check if NPC shares room with any enemy -------------------
+        EnemyRandomWalker[] enemies = FindObjectsOfType<EnemyRandomWalker>();
+        foreach (EnemyRandomWalker enemy in enemies)
+        {
+            Room enemyRoom = enemy.currentRoom;
+            if (currentRoom != null && currentRoom == enemyRoom)
+            {
+                Debug.Log($"{gameObject.name} killed by enemy in room {currentRoom.gridPosition}!");
+                Die();
+                return;
+            }
+        }
+        // -------------------------------------------------------------------------------
+
+        if (currentPath == null || currentPath.Count == 0)
+            return;
+
+        // Move toward the target position
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, targetPos) < 0.01f)
@@ -47,30 +75,33 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
-    // 🔁 Update current tile
+    void Die()
+    {
+        Debug.Log($"{gameObject.name} died in a flooded room!");
+        Destroy(gameObject);
+    }
+
     void UpdateCurrentTile()
     {
         currentTile = ShipGridManager.Instance.WorldToGrid(transform.position);
     }
 
-    Vector2Int GetTargetTile()
+    void SetTarget(Transform newTarget)
     {
-        return ShipGridManager.Instance.WorldToGrid(targetObject.position);
-    }
+        if (newTarget == null) return;
 
-    // 🚀 A* PATH
-    void CalculatePath()
-    {
-        Room startRoom = GetCurrentRoom();
-        Room targetRoom = ShipGrid.Instance.GetRoom(GetTargetTile());
+        Vector2Int targetTile = ShipGridManager.Instance.WorldToGrid(newTarget.position);
+        Room startRoom = ShipGrid.Instance.GetRoom(currentTile);
+        Room targetRoom = ShipGrid.Instance.GetRoom(targetTile);
 
         if (startRoom == null || targetRoom == null)
         {
-            Debug.LogError("A*: Start or Target room is null!");
+            Debug.LogWarning("NPC A*: Start or target room null!");
+            currentPath.Clear();
             return;
         }
 
-        currentPath = AStarPathfinding.FindPath(startRoom, targetRoom);
+        currentPath = FindPath(startRoom, targetRoom);
         pathIndex = 0;
 
         if (currentPath.Count > 0)
@@ -82,88 +113,68 @@ public class NPCMovement : MonoBehaviour
         pathIndex++;
 
         if (pathIndex >= currentPath.Count)
+        {
+            // Reached target → pick next target
+            targetIndex = (targetIndex + 1) % targetObjects.Count;
+            SetTarget(targetObjects[targetIndex]);
             return;
+        }
 
         MoveToRoom(currentPath[pathIndex]);
     }
 
-    Room GetCurrentRoom()
-    {
-        Vector2Int tile = ShipGridManager.Instance.WorldToGrid(transform.position);
-        Room room = ShipGrid.Instance.GetRoom(tile);
-
-        if (room == null && currentPath != null && pathIndex < currentPath.Count)
-        {
-            // Fallback: assume still in the previous room if slightly outside
-            room = currentPath[pathIndex];
-        }
-
-        return room;
-    }
-
     void MoveToRoom(Room room)
     {
-        targetPos = ShipGridManager.Instance.GridToWorld(room.gridPosition) + new Vector3(1f, 1f, 0f) * 0.5f; // center of room
+        currentTile = room.gridPosition;
+        targetPos = ShipGridManager.Instance.GridToWorld(currentTile);
     }
 
-    // 🚪 Check if next door is closed
-    bool IsNextStepBlocked()
-    {
-        if (pathIndex >= currentPath.Count - 1)
-            return false;
-
-        Room currentRoom = currentPath[pathIndex];
-        Room nextRoom = currentPath[pathIndex + 1];
-
-        foreach (RoomConnection conn in currentRoom.connections)
-        {
-            if (conn.targetRoom == nextRoom)
-            {
-                if (!conn.door.isOpen)
-                {
-                    Debug.Log("NPC waiting at closed door");
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    // 🔄 Call this when a door changes state
+    // ---------------- A* Pathfinding ----------------
     public void OnDoorStateChanged()
     {
+        // Recalculate path when doors open/close
         CalculatePath();
-        //if (isBlocked)
-        //{
-        //    Debug.Log("Door changed → recalculating path");
-        //    CalculatePath();
-        //}
     }
 
-    // 🧠 A*
+    public void CalculatePath()
+    {
+        if (targetObjects.Count == 0) return;
+
+        Room startRoom = ShipGrid.Instance.GetRoom(currentTile);
+        Room targetRoom = ShipGrid.Instance.GetRoom(ShipGridManager.Instance.WorldToGrid(targetObjects[targetIndex].position));
+
+        if (startRoom == null || targetRoom == null)
+        {
+            Debug.LogWarning("NPC A*: Start or Target room is null!");
+            currentPath.Clear();
+            return;
+        }
+
+        currentPath = FindPath(startRoom, targetRoom);
+        pathIndex = 0;
+
+        if (currentPath.Count > 0)
+            MoveToRoom(currentPath[0]);
+    }
+
+    // ---------------- A* Functions ----------------
     List<Room> FindPath(Room start, Room goal)
     {
-        List<Room> openSet = new List<Room>();
-        HashSet<Room> closedSet = new HashSet<Room>();
-
+        List<Room> openList = new List<Room> { start };
+        HashSet<Room> closedList = new HashSet<Room>();
         Dictionary<Room, Room> cameFrom = new Dictionary<Room, Room>();
-        Dictionary<Room, float> gScore = new Dictionary<Room, float>();
-        Dictionary<Room, float> fScore = new Dictionary<Room, float>();
+        Dictionary<Room, float> gScore = new Dictionary<Room, float> { [start] = 0f };
+        Dictionary<Room, float> fScore = new Dictionary<Room, float> { [start] = Heuristic(start, goal) };
 
-        openSet.Add(start);
-        gScore[start] = 0;
-        fScore[start] = Heuristic(start, goal);
-
-        while (openSet.Count > 0)
+        while (openList.Count > 0)
         {
-            Room current = GetLowestFScore(openSet, fScore);
+            Room current = GetLowestFScore(openList, fScore);
 
             if (current == goal)
                 return ReconstructPath(cameFrom, current);
 
-            openSet.Remove(current);
-            closedSet.Add(current);
+            openList.Remove(current);
+            closedList.Add(current);
 
             foreach (RoomConnection conn in current.connections)
             {
@@ -171,40 +182,39 @@ public class NPCMovement : MonoBehaviour
                     continue;
 
                 Room neighbor = conn.targetRoom;
-
-                if (closedSet.Contains(neighbor))
+                if (closedList.Contains(neighbor))
                     continue;
 
-                float tentativeG = gScore[current] + 1;
+                float tentativeG = gScore[current] + 1f;
 
-                if (!openSet.Contains(neighbor))
-                    openSet.Add(neighbor);
-                else if (tentativeG >= gScore.GetValueOrDefault(neighbor, float.MaxValue))
-                    continue;
+                if (!gScore.ContainsKey(neighbor) || tentativeG < gScore[neighbor])
+                {
+                    cameFrom[neighbor] = current;
+                    gScore[neighbor] = tentativeG;
+                    fScore[neighbor] = tentativeG + Heuristic(neighbor, goal);
 
-                cameFrom[neighbor] = current;
-                gScore[neighbor] = tentativeG;
-                fScore[neighbor] = tentativeG + Heuristic(neighbor, goal);
+                    if (!openList.Contains(neighbor))
+                        openList.Add(neighbor);
+                }
             }
         }
-        Debug.LogWarning("A*: No path found!");
+
         return new List<Room>();
     }
 
     float Heuristic(Room a, Room b)
     {
-        return Mathf.Abs(a.gridPosition.x - b.gridPosition.x) +
-               Mathf.Abs(a.gridPosition.y - b.gridPosition.y);
+        return Mathf.Abs(a.gridPosition.x - b.gridPosition.x) + Mathf.Abs(a.gridPosition.y - b.gridPosition.y);
     }
 
     Room GetLowestFScore(List<Room> list, Dictionary<Room, float> fScore)
     {
         Room best = list[0];
-        float bestScore = fScore.GetValueOrDefault(best, float.MaxValue);
+        float bestScore = fScore.GetValueOrDefault(best, Mathf.Infinity);
 
         foreach (Room room in list)
         {
-            float score = fScore.GetValueOrDefault(room, float.MaxValue);
+            float score = fScore.GetValueOrDefault(room, Mathf.Infinity);
             if (score < bestScore)
             {
                 best = room;
@@ -218,13 +228,11 @@ public class NPCMovement : MonoBehaviour
     List<Room> ReconstructPath(Dictionary<Room, Room> cameFrom, Room current)
     {
         List<Room> path = new List<Room> { current };
-
         while (cameFrom.ContainsKey(current))
         {
             current = cameFrom[current];
             path.Insert(0, current);
         }
-
         return path;
     }
 }

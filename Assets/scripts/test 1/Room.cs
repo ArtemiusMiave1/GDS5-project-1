@@ -40,7 +40,38 @@ public class Room : MonoBehaviour
             printRoomInfoButton = false;
             PrintRoomInfo();
         }
+        UpdateRoomVisual();
     }
+
+    public void UpdateRoomVisual()
+    {
+        if (tilemap == null) return;
+
+        Color floodColor = Color.blue;
+        Color normalColor = Color.white;
+
+        if (FloodManager.Instance != null)
+        {
+            floodColor = FloodManager.Instance.floodColor;
+            normalColor = FloodManager.Instance.normalColor;
+        }
+
+        tilemap.color = isFlooded ? floodColor : normalColor;
+    } 
+    //public void UpdateRoomVisual()
+    //{
+    //    if (tilemap == null) return;
+
+    //    // Change color based on flood state
+    //    if (!isFlooded)
+    //    {
+    //        tilemap.color = Color.white; // not flooded = normal color
+    //    }
+    //    else
+    //    {
+    //        tilemap.color = new Color(255f, 255f, 255f); // flooded = dark blue
+    //    }
+    //}
 
     void SetGridPosition()
     {

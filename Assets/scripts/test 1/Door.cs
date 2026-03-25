@@ -4,11 +4,12 @@ using System.Collections.Generic;
 public class Door : MonoBehaviour
 {
     [Header("State")]
-    public bool isOpen = false; // start CLOSED
+    public bool isOpen = false;
 
     [Header("References")]
     public Collider2D doorCollider;
     public SpriteRenderer spriteRenderer;
+    public GameObject outlineObject; // Assign child outline object
 
     [Header("Grid Info")]
     public Vector2Int gridPosition;
@@ -17,29 +18,68 @@ public class Door : MonoBehaviour
     public Room roomA;
     public Room roomB;
 
+    [Header("Colors")]
+    public Color closedColor = new Color(0.8f, 0.8f, 0.8f); // light grey
+    public Color openColor = new Color(0.102f, 0.161f, 0.216f); // #1A2937 dark blue
+
+    [Header("Collider Settings")]
+    public Vector2 colliderSizeMultiplier = new Vector2(1.2f, 1.2f);
+
+    private bool isHovered = false;
+
     void Start()
     {
-        // Auto-assign SpriteRenderer if missing
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (doorCollider == null)
+            doorCollider = GetComponent<Collider2D>();
 
         SetGridPosition();
         RegisterWithRooms();
 
+        ResizeCollider();
+
         UpdateVisual();
 
-        // Ensure collider matches closed state
         if (doorCollider != null)
             doorCollider.enabled = !isOpen;
+
+        if (outlineObject != null)
+        {
+            outlineObject.SetActive(false);
+
+            // Ensure outline is above door
+            SpriteRenderer outlineSR = outlineObject.GetComponent<SpriteRenderer>();
+            if (outlineSR != null)
+            {
+                outlineSR.sortingOrder = 3;
+            }
+        }
     }
 
-    // Called when player clicks on the door
+    void Update()
+    {
+        UpdateOutlineTransform();
+    }
+
     void OnMouseDown()
     {
         ToggleDoor();
     }
 
-    // 🔄 Toggle door open/closed
+    void OnMouseEnter()
+    {
+        isHovered = true;
+        UpdateVisual();
+    }
+
+    void OnMouseExit()
+    {
+        isHovered = false;
+        UpdateVisual();
+    }
+
     public void ToggleDoor()
     {
         isOpen = !isOpen;
@@ -47,27 +87,61 @@ public class Door : MonoBehaviour
         if (doorCollider != null)
             doorCollider.enabled = !isOpen;
 
-        // Update NPC paths
         foreach (NPCMovement npc in FindObjectsOfType<NPCMovement>())
         {
+            
             npc.OnDoorStateChanged();
         }
 
-        // ✅ Automatically update flood
         FindObjectOfType<FloodManager>()?.UpdateFlood();
 
         UpdateVisual();
     }
 
-    // 🎨 Update sprite color based on state
     void UpdateVisual()
     {
         if (spriteRenderer == null) return;
 
-        spriteRenderer.color = isOpen ? Color.blue : Color.red;
+        spriteRenderer.color = isOpen ? openColor : closedColor;
+
+        if (outlineObject != null)
+        {
+            outlineObject.SetActive(isHovered);
+
+            // Match door exactly for perfect hover
+            SpriteRenderer outlineSR = outlineObject.GetComponent<SpriteRenderer>();
+            if (outlineSR != null)
+            {
+                outlineSR.sortingOrder = 3; // always above everything
+            }
+        }
     }
 
-    // 🔁 Convert world position → grid position (without snapping)
+    void UpdateOutlineTransform()
+    {
+        if (outlineObject == null || spriteRenderer == null) return;
+
+        // Match position, rotation, and scale
+        outlineObject.transform.position = transform.position;
+        outlineObject.transform.rotation = transform.rotation;
+        outlineObject.transform.localScale = transform.localScale * 1.1f; // slightly bigger for outline
+    }
+
+    void ResizeCollider()
+    {
+        BoxCollider2D box = doorCollider as BoxCollider2D;
+
+        if (box != null && spriteRenderer != null)
+        {
+            Vector2 spriteSize = spriteRenderer.bounds.size;
+
+            box.size = new Vector2(
+                spriteSize.x * colliderSizeMultiplier.x,
+                spriteSize.y * colliderSizeMultiplier.y
+            );
+        }
+    }
+
     void SetGridPosition()
     {
         if (ShipGridManager.Instance == null || ShipGridManager.Instance.grid == null)
@@ -80,13 +154,11 @@ public class Door : MonoBehaviour
         gridPosition = new Vector2Int(cell.x, cell.y);
     }
 
-    // 🔍 Detect which rooms this door connects
     void RegisterWithRooms()
     {
         Room[] allRooms = FindObjectsOfType<Room>();
         List<Room> foundRooms = new List<Room>();
 
-        // Offsets to check around the door in world space
         Vector3[] offsets = new Vector3[]
         {
             Vector3.left * 0.6f,
@@ -108,7 +180,6 @@ public class Door : MonoBehaviour
                 if (room.tilemap.HasTile(cell) && !foundRooms.Contains(room))
                 {
                     foundRooms.Add(room);
-                    Debug.Log($"Door found room at {room.gridPosition}");
                 }
             }
         }
@@ -125,20 +196,17 @@ public class Door : MonoBehaviour
         }
     }
 
-    // 🔗 Connect rooms for pathfinding
     void ConnectRooms()
     {
         if (roomA == null || roomB == null) return;
 
         Vector2Int dirAB = roomB.gridPosition - roomA.gridPosition;
 
-        // Normalize direction to -1,0,1
         dirAB = new Vector2Int(
             Mathf.Clamp(dirAB.x, -1, 1),
             Mathf.Clamp(dirAB.y, -1, 1)
         );
 
-        // Room A → B
         roomA.connections.Add(new RoomConnection
         {
             targetRoom = roomB,
@@ -146,14 +214,11 @@ public class Door : MonoBehaviour
             direction = dirAB
         });
 
-        // Room B → A
         roomB.connections.Add(new RoomConnection
         {
             targetRoom = roomA,
             door = this,
             direction = -dirAB
         });
-
-        Debug.Log($"Door connected {roomA.gridPosition} <-> {roomB.gridPosition}");
     }
 }
