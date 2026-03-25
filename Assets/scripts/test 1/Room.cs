@@ -23,23 +23,58 @@ public class Room : MonoBehaviour
 
     void Awake()
     {
+        //if (tilemap == null)
+        //    tilemap = GetComponent<Tilemap>();
+
+        //SetGridPosition();
+        //GetTiles();
+        //RegisterRoom();
+    }
+
+    void Start()
+    {
         if (tilemap == null)
             tilemap = GetComponent<Tilemap>();
 
         SetGridPosition();
         GetTiles();
         RegisterRoom();
-    }
-
-    void Start()
-    {
         UpdateVisual(); // ensure correct color at start
     }
 
     void SetGridPosition()
     {
-        Vector3Int cellPos = tilemap.cellBounds.min;
-        gridPosition = new Vector2Int(cellPos.x, cellPos.y);
+        if (tilemap == null) return;
+
+        tiles.Clear();
+
+        // Go through all tiles that actually exist
+        BoundsInt bounds = tilemap.cellBounds;
+
+        int minX = int.MaxValue;
+        int minY = int.MaxValue;
+
+        foreach (Vector3Int pos in bounds.allPositionsWithin)
+        {
+            if (tilemap.HasTile(pos))
+            {
+                tiles.Add(pos);
+
+                // Track bottom-left occupied tile
+                if (pos.x < minX) minX = pos.x;
+                if (pos.y < minY) minY = pos.y;
+            }
+        }
+
+        if (tiles.Count > 0)
+        {
+            gridPosition = new Vector2Int(minX, minY); // bottom-left occupied tile
+            Debug.Log($"Room gridPosition set to bottom-left occupied tile: {gridPosition}");
+        }
+        else
+        {
+            Debug.LogWarning("Room has no tiles!");
+        }
     }
 
     void GetTiles()

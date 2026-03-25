@@ -74,6 +74,9 @@ public class NPCMovement : MonoBehaviour
     {
         Room startRoom = ShipGrid.Instance.GetRoom(currentTile);
         Room targetRoom = ShipGrid.Instance.GetRoom(GetTargetTile());
+        Debug.LogError(targetRoom);
+        Debug.LogError(startRoom);
+
 
         if (startRoom == null || targetRoom == null)
         {
